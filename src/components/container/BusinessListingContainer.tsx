@@ -4,7 +4,6 @@ import { ImageCarousel } from "../presentation/ImageCarousel";
 import { CategoryCarousel } from "../presentation/CategoryCarousel";
 import { BusinessCard } from "../presentation/BusinessCardHome";
 import { Footer } from "../presentation/Footer";
-import { categories } from "../../utils/categories";
 import { useFavorites } from "../../hooks/useFavorites";
 import { useBusinesses } from "../../hooks/useBusinesses";
 import { Heart } from "lucide-react";
@@ -184,10 +183,9 @@ export const BusinessListingContainer = () => {
 
         <div className="mt-2">
           <CategoryCarousel
-            categories={categories}
+            // categories={categories}
             selectedCategory={selectedCategory}
-            onSelectCategory={setSelectedCategory}
-          />
+            onSelectCategory={setSelectedCategory} categories={[]}          />
         </div>
 
         {isLoading ? (

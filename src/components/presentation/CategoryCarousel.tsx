@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Category } from '../../types';
 import { useRef } from 'react';
+import { categories } from '../../utils/categories';
 
 interface CategoryCarouselProps {
   categories: Category[];
@@ -9,12 +10,12 @@ interface CategoryCarouselProps {
 }
 
 export const CategoryCarousel = ({
-  categories,
+  // categories,
   selectedCategory,
   onSelectCategory,
 }: CategoryCarouselProps) => {
   const carouselRef = useRef<HTMLDivElement | null>(null);
-
+  
   const scrollContainer = (direction: 'left' | 'right') => {
     const container = carouselRef.current;
     if (container) {
