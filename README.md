@@ -1,3 +1,65 @@
-# Centro digital 👋🏻
-<p>¿Alguna vez has sentido la frustración de <strong>buscar un negocio local y no saber por dónde empezar</strong>?. Ya sea que necesites un servicio urgente o quieras comprar algo específico, encontrar la opción correcta puede resultar complicado. Las recomendaciones no siempre llegan a tiempo y las búsquedas en línea pueden ser un laberinto.</p>
-<p>En centro digital, creemos que <strong>encontrar un negocio local de calidad no debería ser complicado</strong>. Nuestro compromiso es conectar a la comunidad con las mejores opciones disponibles, asegurando satisfacción y confianza en cada compra. <strong>¡Descubre la forma más fácil de encontrar lo que buscas!</strong></p>
+# Centro Digital
+
+¿Alguna vez te has sentido frustrado buscando un negocio local y no saber por dónde empezar? **Centro Digital** es la solución: una plataforma web diseñada para conectar a consumidores locales y pequeños negocios, haciendo que encontrar servicios y productos de calidad sea más rápido y sencillo.
+
+---
+
+## 🎯 Propósito
+
+**Centro Digital** facilita la conexión entre consumidores y negocios locales. Nuestra misión es:
+- Brindar a los usuarios una herramienta confiable para encontrar negocios cercanos.
+- Ayudar a los pequeños negocios a ganar visibilidad en su comunidad.
+
+---
+
+## 🌟 Características Clave
+
+- **Búsqueda por Categorías**: Encuentra negocios organizados por sectores (comida, servicios, compras, etc.).  
+- **Favoritos**: Guarda negocios importantes para fácil acceso en el futuro.  
+
+
+---
+
+## 🚀 Tecnologías Utilizadas
+
+Este proyecto se construyó utilizando un stack moderno para garantizar eficiencia y escalabilidad:
+
+- **Frontend**:  
+  - **React + TypeScript**: Para una interfaz interactiva y segura.  
+  - **Tailwind CSS**: Para un diseño rápido, atractivo y personalizado.  
+  - **Lucide React**: Iconos elegantes y ligeros.  
+
+- **Backend y Base de Datos**:  
+  - **Supabase (PostgreSQL)**: Manejo de datos confiable y escalable.  
+
+- **Mapas Interactivos**:  
+  - **React Leaflet**: Integración de mapas dinámicos para una mejor experiencia de usuario.
+
+---
+
+## 🌍 ¿Cómo Usarlo?
+
+1. Accede a nuestro sitio web en [centrodigital.com](#).
+2. Explora negocios locales filtrando por categoría.
+3. Agrega negocios a tus favoritos para referencias rápidas.
+
+---
+
+## 🤝 Contribuye con Nosotros
+
+¡Nos encantaría que formes parte de este proyecto! Si tienes ideas para mejorar o encuentras un problema, sigue estos pasos:
+
+1. Haz un fork del repositorio.  
+2. Crea un branch para tu función o corrección (`git checkout -b feature/nueva-funcion`).  
+3. Envía un pull request para revisión.  
+
+---
+
+## 📞 Contacto
+
+¿Tienes preguntas o sugerencias? Contáctanos:
+- **Email**: [garaven.camilo@gmail.com](mailto:garaven.camilo@gmail.com)  
+
+---
+
+¡Descubre la manera más fácil de conectar con negocios locales y apoya a tu comunidad!  
