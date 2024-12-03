@@ -12,8 +12,13 @@ interface BusinessModalProps {
 }
 
 export const BusinessModal: React.FC<BusinessModalProps> = ({ business, isOpen, onClose, onSave }) => {
+  // Obtener los departamentos desde el hook useDepartments
   const departamentos = useDepartments();
+  
+  // Estado para las ciudades, que cambiará según el departamento seleccionado
   const [ciudades, setCiudades] = useState<string[]>([]);
+
+  // Estado para almacenar los datos del formulario
   const [form, setForm] = useState({
     nombre: business.nombre,
     descripcion: business.descripcion,
@@ -29,17 +34,21 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ business, isOpen, 
     activo: business.activo
   });
 
+  // Efecto para actualizar las ciudades cuando se seleccione un departamento
   useEffect(() => {
     if (form.departamento && departamentos[form.departamento]) {
       setCiudades(departamentos[form.departamento]);
     }
   }, [form.departamento, departamentos]);
 
+  // Si el modal no está abierto, no renderizar nada
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg w-full max-w-2xl p-6 relative max-h-[90vh] overflow-y-auto">
+        
+        {/* Botón para cerrar el modal */}
         <button
           onClick={onClose}
           className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
@@ -50,7 +59,7 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ business, isOpen, 
         <h2 className="text-xl font-semibold mb-6">Editar Negocio</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Nombre */}
+          {/* Campo Nombre */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
             <input
@@ -61,7 +70,7 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ business, isOpen, 
             />
           </div>
 
-          {/* Categoría */}
+          {/* Campo Categoría */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Categoría</label>
             <select
@@ -77,7 +86,7 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ business, isOpen, 
             </select>
           </div>
 
-          {/* Descripción */}
+          {/* Campo Descripción */}
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
             <textarea
@@ -88,7 +97,7 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ business, isOpen, 
             />
           </div>
 
-          {/* Horarios */}
+          {/* Campo Hora de apertura */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Hora de apertura</label>
             <input
@@ -99,6 +108,7 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ business, isOpen, 
             />
           </div>
 
+          {/* Campo Hora de cierre */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Hora de cierre</label>
             <input
@@ -109,7 +119,7 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ business, isOpen, 
             />
           </div>
 
-          {/* Redes sociales */}
+          {/* Campos para Redes sociales */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">WhatsApp</label>
             <input
@@ -140,7 +150,7 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ business, isOpen, 
             />
           </div>
 
-          {/* Ubicación */}
+          {/* Campos para Ubicación */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Departamento</label>
             <select
@@ -180,7 +190,7 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ business, isOpen, 
             />
           </div>
 
-          {/* Estado activo */}
+          {/* Campo de estado activo */}
           <div className="md:col-span-2">
             <label className="flex items-center space-x-2 cursor-pointer">
               <input
@@ -194,6 +204,7 @@ export const BusinessModal: React.FC<BusinessModalProps> = ({ business, isOpen, 
           </div>
         </div>
 
+        {/* Botones de acción */}
         <div className="mt-6 flex justify-end gap-3">
           <button
             onClick={onClose}

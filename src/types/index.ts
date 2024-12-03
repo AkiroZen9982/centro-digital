@@ -9,6 +9,8 @@ export interface Business {
   direccion: string;
   descripcion: string;
   categoria: string;
+  hora_a: string;
+  hora_c: string;
   lat: number;
   lng: number;
   whatsapp?: string;

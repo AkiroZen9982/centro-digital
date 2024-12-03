@@ -34,6 +34,7 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
     }
   }, [formData.departamento, departamentos]);
 
+  // Función para manejar el cambio de imagen
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, index?: number) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -59,6 +60,7 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
 
   return (
     <div className="max-w-4xl mt-6 mx-auto p-6 bg-gray-50 shadow-lg rounded-lg">
+      {/* Botón de regreso */}
       <button
         onClick={onBack}
         className="flex items-center gap-2 text-gray-600 hover:text-gray-800 mb-6"
@@ -68,12 +70,14 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
 
       <h1 className="text-2xl font-semibold text-gray-800 mb-4">Registra tu negocio</h1>
 
+      {/* Mostrar error si lo hay */}
       {error && (
         <p className="text-red-500 text-sm mb-4">{error}</p>
       )}
 
+      {/* Formulario */}
       <form onSubmit={onSubmit} className="space-y-4">
-        {/* Business Name */}
+        {/* Nombre del negocio */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del negocio</label>
           <input
@@ -87,7 +91,7 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
           />
         </div>
 
-        {/* Description */}
+        {/* Descripción */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Descripcion</label>
           <textarea
@@ -113,7 +117,7 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
           />
         </div>
 
-        {/* Social Media URLs */}
+        {/* URLs de redes sociales */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Facebook URL</label>
@@ -139,7 +143,7 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
           </div>
         </div>
 
-        {/* Category */}
+        {/* Categoría */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Categoria</label>
           <select
@@ -156,7 +160,7 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
           </select>
         </div>
 
-        {/* Time Fields */}
+        {/* Campos de horario */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Hora de apertura</label>
@@ -182,9 +186,9 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
           </div>
         </div>
 
-        {/* Location */}
+        {/* Ubicación */}
         <div className="grid grid-cols-2 gap-4">
-            {/* Department */}
+            {/* Departamento */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Departamento</label>
               <select
@@ -203,7 +207,7 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
               </select>
             </div>
 
-            {/* City */}
+            {/* Ciudad */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Ciudad</label>
               <select
@@ -223,7 +227,7 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
             </div>
           </div>
 
-        {/* Address */}
+        {/* Dirección */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
           <input
@@ -237,7 +241,7 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
           />
         </div>
 
-        {/* Image Upload */}
+        {/* Subida de imagen de perfil */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Imagen de perfil: webp</label>
           <input
@@ -261,7 +265,7 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
           )}
         </div>
 
-        {/* Product Images */}
+        {/* Subida de imágenes de productos */}
         {[...Array(3)].map((_, index) => (
           <div key={index}>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -285,7 +289,7 @@ export const RegisterBusinessForm: React.FC<RegisterBusinessFormProps> = ({
           </div>
         ))}
 
-        {/* Submit Button */}
+        {/* Botón de envío */}
         <button
           type="submit"
           className={`w-full p-2 rounded text-white ${isSubmitDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
