@@ -1,8 +1,8 @@
 import { Clock, MapPin, Heart, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Business } from '../../types';
-import { getCategoryIcon } from '../../utils/categories';  // Asegúrate de importar esta función
-import BusinessImage from '../../data/images'; // Asegúrate de que la ruta sea correcta
+import { getCategoryIcon } from '../../utils/categories';
+import BusinessImage from '../../data/images';
 
 interface BusinessCardProps {
   business: Business;

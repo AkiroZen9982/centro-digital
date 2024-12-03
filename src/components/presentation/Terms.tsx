@@ -1,6 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Footer } from '../presentation/Footer';
+import { Footer } from './Footer';
 
 export const TermsContainer = () => {
   const navigate = useNavigate();

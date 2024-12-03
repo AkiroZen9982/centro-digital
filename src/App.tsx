@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { RegisterBusinessContainer } from './components/container/RegisterBusinessContainer';
-import { HelpCenterContainer } from './components/container/HelpCenterContainer';
-import { TermsContainer } from './components/container/TermsContainer';
-import { PrivacyContainer } from './components/container/PrivacyContainer';
+import { HelpCenterContainer } from './components/presentation/HelpCenter';
+import { TermsContainer } from './components/presentation/Terms';
+import { PrivacyContainer } from './components/presentation/Privacy';
 import NotFound from './components/presentation/Error404';
 import { AuthProvider, useAuth } from './context/auth/authContext';
 import Dashboard from './pages/Dashboard';
