@@ -12,19 +12,19 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/auth/authContext'; // Importamos el contexto de autenticación
 
 export const DashboardContainer = () => {
-  const { businesses, isLoading, error } = useBusinesses();
-  const { checkAuthentication } = useAuth(); // Usamos checkAuthentication
+  const { businesses, isLoading, error } = useBusinesses(); // Obtenemos los negocios, el estado de carga y los errores
+  const { checkAuthentication } = useAuth(); // Usamos checkAuthentication del contexto de autenticación
   const [filters, setFilters] = useState<BusinessFilters>({
-    search: '',
-    category: 'Todas las categorías',
-    status: 'all',
+    search: '', // Filtro de búsqueda por nombre
+    category: 'Todas las categorías', // Filtro por categoría
+    status: 'all', // Filtro por estado
   });
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
-  const [businessToDelete, setBusinessToDelete] = useState<Business | undefined>();
-  const [businessToEdit, setBusinessToEdit] = useState<Business | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const navigate = useNavigate();
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list'); // Modo de vista (cuadrícula o lista)
+  const [businessToDelete, setBusinessToDelete] = useState<Business | undefined>(); // Negocio seleccionado para eliminar
+  const [businessToEdit, setBusinessToEdit] = useState<Business | null>(null); // Negocio seleccionado para editar
+  const [isModalOpen, setIsModalOpen] = useState(false); // Estado del modal de eliminación
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // Estado del modal de edición
+  const navigate = useNavigate(); // Hook de navegación para redirigir
 
   // Función para cerrar sesión
   const handleLogout = async () => {
@@ -37,33 +37,33 @@ export const DashboardContainer = () => {
 
   // Filtros de negocios (actualizados)
   const filteredBusinesses = useMemo(() => {
-    if (!businesses || businesses.length === 0) return [];
+    if (!businesses || businesses.length === 0) return []; // Si no hay negocios, no filtramos nada
 
-    const searchQuery = filters.search.trim().toLowerCase();
-    const categoryFilter = filters.category.toLowerCase();
-    const statusFilter = filters.status;
+    const searchQuery = filters.search.trim().toLowerCase(); // Filtramos por nombre
+    const categoryFilter = filters.category.toLowerCase(); // Filtramos por categoría
+    const statusFilter = filters.status; // Filtramos por estado
 
     return businesses.filter((business) => {
       const businessName = business.nombre?.toLowerCase() || '';
       const businessCategory = business.categoria?.toLowerCase() || '';
       const isActive = business.activo;
 
-      const matchesSearch = searchQuery === '' || businessName.includes(searchQuery);
-      const matchesCategory = categoryFilter === 'todas las categorías' || businessCategory === categoryFilter;
+      const matchesSearch = searchQuery === '' || businessName.includes(searchQuery); // Coincidencia con la búsqueda
+      const matchesCategory = categoryFilter === 'todas las categorías' || businessCategory === categoryFilter; // Coincidencia con la categoría
       const matchesStatus =
         statusFilter === 'all' ||
         (statusFilter === 'active' && isActive) ||
-        (statusFilter === 'inactive' && !isActive);
+        (statusFilter === 'inactive' && !isActive); // Coincidencia con el estado
 
-      return matchesSearch && matchesCategory && matchesStatus;
+      return matchesSearch && matchesCategory && matchesStatus; // Devolvemos los negocios que coinciden con los filtros
     });
   }, [businesses, filters]);
 
-  // Función para actualizar filtros
+  // Función para actualizar los filtros
   const updateFilter = (filterName: string, value: string) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [filterName]: value,
+      [filterName]: value, // Actualizamos el filtro correspondiente
     }));
   };
 
@@ -73,16 +73,16 @@ export const DashboardContainer = () => {
         const { error } = await supabase
           .from('negocios')
           .delete()
-          .eq('id', businessToDelete.id);
+          .eq('id', businessToDelete.id); // Eliminamos el negocio de la base de datos
 
         if (error) throw error;
 
-        window.location.reload();
+        window.location.reload(); // Recargamos la página para reflejar el cambio
       } catch (error) {
-        console.error('Error deleting business:', error);
+        console.error('Error deleting business:', error); // Manejamos el error en caso de que falle la eliminación
       }
-      setBusinessToDelete(undefined);
-      setIsModalOpen(false);
+      setBusinessToDelete(undefined); // Restablecemos el negocio a eliminar
+      setIsModalOpen(false); // Cerramos el modal de eliminación
     }
   }, [businessToDelete]);
 
@@ -91,7 +91,7 @@ export const DashboardContainer = () => {
 
     try {
       const slug = updatedBusiness.nombre
-        ? slugify(updatedBusiness.nombre.toLowerCase())
+        ? slugify(updatedBusiness.nombre.toLowerCase()) // Generamos un slug para el negocio
         : businessToEdit.slug;
 
       let lat = businessToEdit.lat;
@@ -105,16 +105,16 @@ export const DashboardContainer = () => {
         try {
           const direccionCompleta = `${updatedBusiness.direccion}, ${updatedBusiness.ciudad}, ${updatedBusiness.departamento}`;
           const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(direccionCompleta)}`;
-          
+
           const response = await fetch(url);
           const data = await response.json();
-          
+
           if (data.length > 0) {
             lat = parseFloat(data[0].lat);
             lng = parseFloat(data[0].lon);
           }
         } catch (error) {
-          console.error('Error getting coordinates:', error);
+          console.error('Error getting coordinates:', error); // Manejamos el error si falla la obtención de coordenadas
         }
       }
 
@@ -137,37 +137,37 @@ export const DashboardContainer = () => {
           lng,
           activo: updatedBusiness.activo
         })
-        .eq('id', businessToEdit.id);
+        .eq('id', businessToEdit.id); // Actualizamos los datos del negocio
 
       if (error) throw error;
 
-      window.location.reload();
+      window.location.reload(); // Recargamos la página para reflejar los cambios
     } catch (error: any) {
-      console.error('Error updating business:', error.message);
+      console.error('Error updating business:', error.message); // Manejamos el error en caso de que falle la actualización
     }
 
-    setBusinessToEdit(null);
-    setIsEditModalOpen(false);
+    setBusinessToEdit(null); // Restablecemos el negocio a editar
+    setIsEditModalOpen(false); // Cerramos el modal de edición
   }, [businessToEdit]);
 
   const handleOpenModal = useCallback((business: Business) => {
-    setBusinessToDelete(business);
-    setIsModalOpen(true);
+    setBusinessToDelete(business); // Establecemos el negocio a eliminar
+    setIsModalOpen(true); // Abrimos el modal de confirmación de eliminación
   }, []);
 
   const handleCloseModal = useCallback(() => {
-    setBusinessToDelete(undefined);
-    setIsModalOpen(false);
+    setBusinessToDelete(undefined); // Restablecemos el negocio a eliminar
+    setIsModalOpen(false); // Cerramos el modal de eliminación
   }, []);
 
   const handleOpenEditModal = useCallback((business: Business) => {
-    setBusinessToEdit(business);
-    setIsEditModalOpen(true);
+    setBusinessToEdit(business); // Establecemos el negocio a editar
+    setIsEditModalOpen(true); // Abrimos el modal de edición
   }, []);
 
   const handleCloseEditModal = useCallback(() => {
-    setBusinessToEdit(null);
-    setIsEditModalOpen(false);
+    setBusinessToEdit(null); // Restablecemos el negocio a editar
+    setIsEditModalOpen(false); // Cerramos el modal de edición
   }, []);
 
   if (isLoading) {

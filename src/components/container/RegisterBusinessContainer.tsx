@@ -6,10 +6,11 @@ import { BusinessForm } from '../../types';
 import { RegisterBusinessForm } from '../presentation/RegisterBusinessForm';
 
 export const RegisterBusinessContainer = () => {
-  const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate(); // Hook para navegación después del envío del formulario
+  const [isSubmitting, setIsSubmitting] = useState(false); // Estado para rastrear si el formulario está siendo enviado
+  const [error, setError] = useState<string | null>(null); // Estado para rastrear cualquier mensaje de error
   const [formData, setFormData] = useState<BusinessForm>({
+    // Datos iniciales del formulario con campos para el registro de negocio
     nombre: '',
     descripcion: '',
     whatsapp: '',
@@ -29,72 +30,75 @@ export const RegisterBusinessContainer = () => {
     productImages: [], // Imágenes de productos (hasta tres)
   });
 
-  // Función para obtener las coordenadas de la dirección ingresada
+  // Función para obtener latitud y longitud de la dirección ingresada por el usuario
   const obtenerCoordenadas = async () => {
     const { direccion, ciudad } = formData;
 
-    if (!direccion || !ciudad) return;
+    if (!direccion || !ciudad) return; // Salir si no hay dirección o ciudad
 
-    const direccionCompleta = `${ciudad}, ${direccion}`;
+    const direccionCompleta = `${ciudad}, ${direccion}`; // Dirección completa
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(direccionCompleta)}`;
 
     try {
-      const response = await fetch(url);
+      const response = await fetch(url); // Obteniendo coordenadas desde OpenStreetMap
       const data = await response.json();
       if (data.length > 0) {
         const { lat, lon } = data[0]; // 'lon' es la longitud en la API de Nominatim
-        return { lat: parseFloat(lat), lng: parseFloat(lon) }; // Usamos 'lng' para compatibilidad
+        return { lat: parseFloat(lat), lng: parseFloat(lon) }; // Retornar lat y lng
       } else {
-        setError('No se pudo encontrar la dirección.');
+        setError('No se pudo encontrar la dirección.'); // Si no se encuentran coordenadas, mostrar error
         return null;
       }
     } catch (error) {
       console.error('Error al obtener las coordenadas:', error);
-      setError('Error al obtener las coordenadas.');
+      setError('Error al obtener las coordenadas.'); // Manejar error en la obtención de coordenadas
       return null;
     }
   };
 
+  // Función para manejar los cambios en los campos del formulario
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => {
-      const newData = { ...prev, [name]: value };
+      const newData = { ...prev, [name]: value }; // Actualizar los datos del formulario
       if (name === 'nombre') {
-        newData.slug = slugify(value.toLowerCase());
+        newData.slug = slugify(value.toLowerCase()); // Generar slug a partir del nombre
       }
       return newData;
     });
   };
 
+  // Función para manejar los cambios de archivos de imagen (imagen principal o imágenes de productos)
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, index?: number) => {
     const file = e.target.files ? e.target.files[0] : null;
     if (file) {
-      // Validar que el archivo es una imagen
+      // Validar si el archivo es una imagen
       const validTypes = ['image/webp', 'image/webp'];
       if (validTypes.includes(file.type)) {
         if (index !== undefined) {
-          // Si es una imagen de producto, almacenamos en el índice correspondiente
+          // Si es una imagen de producto, almacenarla en el índice especificado
           setFormData((prev) => {
             const newProductImages = [...prev.productImages];
             newProductImages[index] = file;
             return { ...prev, productImages: newProductImages };
           });
         } else {
-          // Si es la imagen principal, la almacenamos en el estado
+          // Si es la imagen principal, almacenarla en el estado del formulario
           setFormData((prev) => ({ ...prev, image: file }));
         }
       } else {
-        setError('Por favor, sube una imagen válida (Webp).');
+        setError('Por favor, sube una imagen válida (Webp).'); // Mostrar error si el archivo no es una imagen válida
       }
     }
   };
 
+  // Función para manejar el envío del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
 
-    // Validaciones antes de enviar los datos
+    // Validar campos requeridos antes de enviar
     if (!formData.nombre.trim()) {
       setError('El nombre del negocio es obligatorio.');
       setIsSubmitting(false);
@@ -148,13 +152,13 @@ export const RegisterBusinessContainer = () => {
         throw new Error('Conexión a la base de datos no disponible');
       }
 
-      // Obtener coordenadas
+      // Obtener las coordenadas de la dirección ingresada
       const coordenadas = await obtenerCoordenadas();
-      if (!coordenadas) return; // Si no se puede obtener la coordenada, no seguimos adelante
+      if (!coordenadas) return; // Si no se pueden obtener las coordenadas, detener el proceso
 
-      const { lat, lng } = coordenadas; // Asegúrate de obtener 'lat' y 'lng'
+      const { lat, lng } = coordenadas; // Obtener latitud y longitud
 
-      let imageUrl = ''; // URL de la imagen principal
+      let imageUrl = ''; // URL para la imagen principal
       if (formData.image) {
         const fileName = `business-${formData.slug}.webp`;
         const { data, error: uploadError } = await supabase
@@ -170,7 +174,7 @@ export const RegisterBusinessContainer = () => {
         imageUrl = publicUrlData?.publicUrl || ''; // Obtener URL de la imagen principal
       }
 
-      // Subir las imágenes de productos (hasta 3 imágenes)
+      // Subir imágenes de productos (hasta 3 imágenes)
       const productImageUrls: string[] = []; // Para almacenar las URLs de las imágenes de productos
       for (let i = 0; i < formData.productImages.length; i++) {
         const productImage = formData.productImages[i];
@@ -198,26 +202,26 @@ export const RegisterBusinessContainer = () => {
         activo: true,
         lat,
         lng,
-        // No insertamos imageUrl ni productImageUrls en la base de datos
+        // No guardamos imageUrl ni productImageUrls en la base de datos aquí
       };
 
       console.log('Datos a insertar:', dataToInsert);
 
-      // Insertar el negocio sin las URLs de las imágenes
+      // Insertar los datos del negocio (sin las URLs de las imágenes)
       const { error: supabaseError } = await supabase.from('negocios').insert([dataToInsert]);
 
       if (supabaseError) {
         throw new Error(supabaseError.message || 'Error al insertar datos en la tabla de negocios');
       }
 
-      // Si necesitas hacer algo con las URLs de las imágenes (por ejemplo, asociarlas con productos), hazlo aquí.
-      // Por ahora, las URLs se suben, pero no se guardan en la base de datos.
+      // Opcionalmente, puedes asociar las URLs de las imágenes con productos aquí.
+      // Por ahora, las URLs se suben pero no se guardan en la base de datos.
 
-      navigate('/'); // Redirigir a la página principal o a otra sección
+      navigate('/'); // Redirigir a la página principal o a otra sección después de enviar el formulario
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Ocurrió un error');
+      setError(err instanceof Error ? err.message : 'Ocurrió un error'); // Mostrar error si algo sale mal
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false); // Restablecer el estado de envío
     }
   };
 
