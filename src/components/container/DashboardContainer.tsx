@@ -248,8 +248,7 @@ export const DashboardContainer = () => {
               <BusinessCard
                 business={business}
                 onDelete={handleOpenModal}
-                onEdit={handleOpenEditModal}
-              />
+                onEdit={handleOpenEditModal} viewMode={'list'}              />
             </div>
           ))}
         </div>
