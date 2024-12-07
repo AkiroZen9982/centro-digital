@@ -55,11 +55,4 @@ Este proyecto se construyó utilizando un stack moderno para garantizar eficienc
 
 ---
 
-## 📞 Contacto
-
-¿Tienes preguntas o sugerencias? Contáctanos:
-- **Email**: [garaven.camilo@gmail.com](mailto:garaven.camilo@gmail.com)  
-
----
-
 ¡Descubre la manera más fácil de conectar con negocios locales y apoya a tu comunidad!  
